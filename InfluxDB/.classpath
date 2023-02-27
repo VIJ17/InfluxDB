@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="lib" path="/home/vijay-con1219/Downloads/InfluxDBJdbcDriver/adapter-rxjava3-2.9.0.jar"/>
+	<classpathentry kind="lib" path="/home/vijay-con1219/Downloads/InfluxDBJdbcDriver/annotations-13.0.jar"/>
+	<classpathentry kind="lib" path="/home/vijay-con1219/Downloads/InfluxDBJdbcDriver/commons-csv-1.9.0.jar"/>
+	<classpathentry kind="lib" path="/home/vijay-con1219/Downloads/InfluxDBJdbcDriver/converter-gson-2.9.0.jar"/>
+	<classpathentry kind="lib" path="/home/vijay-con1219/Downloads/InfluxDBJdbcDriver/converter-scalars-2.9.0.jar"/>
+	<classpathentry kind="lib" path="/home/vijay-con1219/Downloads/InfluxDBJdbcDriver/gson-2.10.jar"/>
+	<classpathentry kind="lib" path="/home/vijay-con1219/Downloads/InfluxDBJdbcDriver/influxdb-client-core-6.7.0.jar"/>
+	<classpathentry kind="lib" path="/home/vijay-con1219/Downloads/InfluxDBJdbcDriver/influxdb-client-flux-6.7.0.jar"/>
+	<classpathentry kind="lib" path="/home/vijay-con1219/Downloads/InfluxDBJdbcDriver/influxdb-client-java-6.7.0.jar"/>
+	<classpathentry kind="lib" path="/home/vijay-con1219/Downloads/InfluxDBJdbcDriver/influxdb-client-utils-6.7.0.jar"/>
+	<classpathentry kind="lib" path="/home/vijay-con1219/Downloads/InfluxDBJdbcDriver/influxjdbc1.1.jar"/>
+	<classpathentry kind="lib" path="/home/vijay-con1219/Downloads/InfluxDBJdbcDriver/jsr305-3.0.2.jar"/>
+	<classpathentry kind="lib" path="/home/vijay-con1219/Downloads/InfluxDBJdbcDriver/kotlin-stdlib-1.6.20.jar"/>
+	<classpathentry kind="lib" path="/home/vijay-con1219/Downloads/InfluxDBJdbcDriver/kotlin-stdlib-common-1.6.20.jar"/>
+	<classpathentry kind="lib" path="/home/vijay-con1219/Downloads/InfluxDBJdbcDriver/kotlin-stdlib-jdk8-1.6.20.jar"/>
+	<classpathentry kind="lib" path="/home/vijay-con1219/Downloads/InfluxDBJdbcDriver/kotlin-stdlib-jdk7-1.6.20.jar"/>
+	<classpathentry kind="lib" path="/home/vijay-con1219/Downloads/InfluxDBJdbcDriver/logging-interceptor-4.10.0.jar"/>
+	<classpathentry kind="lib" path="/home/vijay-con1219/Downloads/InfluxDBJdbcDriver/okhttp-4.10.0.jar"/>
+	<classpathentry kind="lib" path="/home/vijay-con1219/Downloads/InfluxDBJdbcDriver/okio-jvm-3.2.0.jar"/>
+	<classpathentry kind="lib" path="/home/vijay-con1219/Downloads/InfluxDBJdbcDriver/reactive-streams-1.0.4.jar"/>
+	<classpathentry kind="lib" path="/home/vijay-con1219/Downloads/InfluxDBJdbcDriver/retrofit-2.9.0.jar"/>
+	<classpathentry kind="lib" path="/home/vijay-con1219/Downloads/InfluxDBJdbcDriver/rxjava-3.1.5.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
