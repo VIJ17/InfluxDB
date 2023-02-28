@@ -98,7 +98,7 @@ public class InfluxDBDemo
 	//Flux Query...
 	public List<Home> fluxQuery(String bucket, String org)
 	{
-		String query = "from(bucket: \"DEMO\")\n"
+		String query = "from(bucket: \"" + bucket + "\")\n"
 				+ "    |> range(start: 2022-01-01T14:00:00Z, stop: 2022-01-01T20:00:01Z)\n"
 				+ "    |> filter(fn: (r) => r._measurement == \"home\")\n"
 				+ "    |> filter(fn: (r) => r._field == \"co\" or r._field == \"hum\" or r._field == \"temp\")\n"
