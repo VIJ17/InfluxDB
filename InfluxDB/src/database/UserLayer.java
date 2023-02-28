@@ -62,4 +62,49 @@ public class UserLayer
 		return homeList;
 	}
 	
+	public String createOrganization(String orgName) throws InvalidException
+	{
+		NullCheck.nullCheck(orgName);
+		
+		InfluxDBDemo demo = getDemo();
+		String orgID = demo.createOrganization(orgName);
+		
+		return orgID;
+	}
+	
+	public void activateOrganization(String orgName) throws InvalidException
+	{
+		NullCheck.nullCheck(orgName);
+		
+		InfluxDBDemo demo = getDemo();
+		demo.activateOrganization(orgName);
+	}
+	
+	public void deactivateOrganization(String orgName) throws InvalidException
+	{
+		NullCheck.nullCheck(orgName);
+		
+		InfluxDBDemo demo = getDemo();
+		demo.deactivateOrganization(orgName);
+	}
+	
+	public void updateOrganization(String orgName, String description) throws InvalidException
+	{
+		NullCheck.nullCheck(orgName);
+		NullCheck.nullCheck(description);
+		
+		InfluxDBDemo demo = getDemo();
+		demo.updateOrganization(orgName, description);
+	}
+	
+	public void createBucket(String orgName, String bucketName, String description, String retentionPolicy) throws InvalidException
+	{
+		NullCheck.nullCheck(bucketName);
+		NullCheck.nullCheck(orgName);
+		NullCheck.nullCheck(description);
+		
+		InfluxDBDemo demo = getDemo();
+		demo.createnBucket(orgName, bucketName, description, retentionPolicy);
+	}
+	
 }
