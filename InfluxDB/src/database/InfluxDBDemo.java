@@ -28,9 +28,6 @@ public class InfluxDBDemo
 	
 	private InfluxDBClient createConnection()
 	{
-//		String token = "VF7mD4pde6wuso8L7iQkPJdcZITuWMWjyl8JzjaFUuN_HYGUPYBXKxLKaVUeER0M2xZGU-RmfktsLUj0o_aYNg==";
-//		InfluxDBClient client = InfluxDBClientFactory.create("http://localhost:8086", token.toCharArray());
-		
 		InfluxDBClient client = InfluxDBClientFactory.create("http://localhost:8086", "vijay", "Root@123".toCharArray());
 		return client;
 	}
