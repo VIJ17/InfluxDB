@@ -84,10 +84,10 @@ public class InfluxDBDemo
 		
 		try
 		{
-//			client = createConnection();
-//			WriteApiBlocking writeApi = client.getWriteApiBlocking();
-//			
-//			writeApi.writeRecord(bucket, org, WritePrecision.S, home);
+			client = createConnection();
+			WriteApiBlocking writeApi = client.getWriteApiBlocking();
+			
+			writeApi.writeMeasurement(bucket, org, WritePrecision.S, home);
 		}
 		finally
 		{
