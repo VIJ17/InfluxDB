@@ -190,12 +190,12 @@ public class InfluxDBRunner
 				
 				break;
 			}
-			case 9:
+			case 9:					//Create Bucket...
 			{
 				System.out.println("Enter the Description to add for the bucket...");
 				String description = runner.getString();
 				System.out.println("Enter the Retention Policy...");
-				String retentionPolicy = runner.getBucket();
+				String retentionPolicy = runner.getString();
 				
 				try
 				{

@@ -182,7 +182,7 @@ public class InfluxDBDemo
 	}
 	
 	//Activate Organization...
-	public void activateOrganization(String orgName)
+	public void activateOrganization(String orgName) throws InvalidException
 	{
 		InfluxDBClient client = null;
 		
@@ -191,8 +191,7 @@ public class InfluxDBDemo
 			client = createConnection();
 			OrganizationsApi orgApi = client.getOrganizationsApi();
 			
-			Organization organization = new Organization();
-			organization.setName(orgName);
+			Organization organization = getOrganizationByName(orgName, client);
 			organization.setStatus(Organization.StatusEnum.ACTIVE);
 			orgApi.updateOrganization(organization);
 		}
@@ -206,7 +205,7 @@ public class InfluxDBDemo
 	}
 	
 	//Deactivate Organization...
-	public void deactivateOrganization(String orgName)
+	public void deactivateOrganization(String orgName) throws InvalidException
 	{
 		InfluxDBClient client = null;
 		
@@ -215,8 +214,7 @@ public class InfluxDBDemo
 			client = createConnection();
 			OrganizationsApi orgApi = client.getOrganizationsApi();
 			
-			Organization organization = new Organization();
-			organization.setName(orgName);
+			Organization organization = getOrganizationByName(orgName, client);
 			organization.setStatus(Organization.StatusEnum.INACTIVE);
 			orgApi.updateOrganization(organization);
 		}
@@ -230,7 +228,7 @@ public class InfluxDBDemo
 	}
 	
 	//Update Organization..
-	public void updateOrganization(String orgName, String description)
+	public void updateOrganization(String orgName, String description) throws InvalidException
 	{
 		InfluxDBClient client = null;
 		
@@ -239,8 +237,7 @@ public class InfluxDBDemo
 			client = createConnection();
 			OrganizationsApi orgApi = client.getOrganizationsApi();
 			
-			Organization organization = new Organization();
-			organization.setName(orgName);
+			Organization organization = getOrganizationByName(orgName, client);
 			organization.setDescription(description);
 			orgApi.updateOrganization(organization);
 		}
@@ -262,7 +259,8 @@ public class InfluxDBDemo
 		{
 			client = createConnection();
 			
-			String orgID = getOrgID(orgName, client);
+			Organization organization = getOrganizationByName(orgName, client);
+			String orgID = organization.getId();
 			BucketsApi bucketApi = client.getBucketsApi();
 			
 			Bucket bucket = new Bucket();
@@ -282,27 +280,20 @@ public class InfluxDBDemo
 		}
 	}
 	
-	private String getOrgID(String orgName, InfluxDBClient client) throws InvalidException
+	private Organization getOrganizationByName(String orgName, InfluxDBClient client) throws InvalidException
 	{
 		OrganizationsApi orgApi = client.getOrganizationsApi();
 		List<Organization> orgsList = orgApi.findOrganizations();
-		String orgID = null;
 		
 		for(Organization organization : orgsList)
 		{
 			if(organization.getName().equals(orgName))
 			{
-				orgID = organization.getId();
-				break;
+				return organization;
 			}
 		}
 		
-		if(orgID == null)
-		{
-			throw new InvalidException("Organization not found.");
-		}
-		
-		return orgID;
+		throw new InvalidException("Organization not found.");
 	}
 	
 }
