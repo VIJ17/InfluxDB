@@ -107,4 +107,13 @@ public class UserLayer
 		demo.createnBucket(orgName, bucketName, description, retentionPolicy);
 	}
 	
+	public void createUser(String userName, String password) throws InvalidException
+	{
+		NullCheck.nullCheck(userName);
+		NullCheck.nullCheck(password);
+		
+		InfluxDBDemo demo = getDemo();
+		demo.createUser(userName, password);
+	}
+	
 }

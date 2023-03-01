@@ -1,6 +1,7 @@
 package runner;
 
 import java.time.Instant;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -49,188 +50,214 @@ public class InfluxDBRunner
 	{
 		InfluxDBRunner runner = new InfluxDBRunner();
 		UserLayer user = new UserLayer();
-		boolean condition = false;
+		boolean condition = true;
 		
 		do
 		{
-			System.out.println("Enter the case value to execute...");
-			int caseValue = runner.getInt();
-			
-			switch(caseValue)
+			try
 			{
-				case 1:					//InfluxDB line protocol to write data...
+				System.out.println("Enter the case value to execute...");
+				int caseValue = runner.getInt();
+				
+				switch(caseValue)
 				{
-					System.out.println("Enter the no of data points to write...");
-					int n = runner.getInt();
-					
-					for(int i = 0; i < n; i++)
+					case 1:					//InfluxDB line protocol to write data...
 					{
-						System.out.println("Enter data point...");
-						String data = runner.getString();
+						System.out.println("Enter the no of data points to write...");
+						int n = runner.getInt();
+						
+						for(int i = 0; i < n; i++)
+						{
+							System.out.println("Enter data point...");
+							String data = runner.getString();
+							try
+							{
+								user.writeWithLineProtocol(data, runner.getBucket(), runner.getOrganization());
+							}
+							catch (InvalidException e)
+							{
+								e.printStackTrace();
+							}
+						}
+						
+						break;
+					}
+					case 2:					//Data Point to write data...
+					{
+						Point point = Point.measurement("home").addTag("room", "Living Room").addField("temp", 29.9).addField("hum", 33.3).addField("co", 3).time(Instant.now(), WritePrecision.S);
+						
 						try
 						{
-							user.writeWithLineProtocol(data, runner.getBucket(), runner.getOrganization());
+							user.writeWithDataPoint(point, runner.getBucket(), runner.getOrganization());
 						}
 						catch (InvalidException e)
 						{
 							e.printStackTrace();
 						}
-					}
-					
-					break;
-				}
-				case 2:					//Data Point to write data...
-				{
-					Point point = Point.measurement("home").addTag("room", "Living Room").addField("temp", 29.9).addField("hum", 33.3).addField("co", 3).time(Instant.now(), WritePrecision.S);
-					
-					try
-					{
-						user.writeWithDataPoint(point, runner.getBucket(), runner.getOrganization());
-					}
-					catch (InvalidException e)
-					{
-						e.printStackTrace();
-					}
-					
-					break;
-				}
-				case 3:					//POJO to write data...
-				{
-					Home home = new Home();
-					home.setRoom("Kitchen");
-					home.setTemp(31.3);
-					home.setHum(21d);
-					home.setCo(18);
-					home.setTime(Instant.now());
-					
-					try
-					{
-						user.writeWithPOJO(home, runner.getBucket(), runner.getOrganization());
-					}
-					catch(InvalidException e)
-					{
-						e.printStackTrace();
-					}
-					
-					break;
-				}
-				case 4:					//Flux Query...
-				{
-					try
-					{
-						List<Home> homeList = user.fluxQuery(runner.getBucket(), runner.getOrganization());
 						
-						for(Home home : homeList)
+						break;
+					}
+					case 3:					//POJO to write data...
+					{
+						Home home = new Home();
+						home.setRoom("Kitchen");
+						home.setTemp(31.3);
+						home.setHum(21d);
+						home.setCo(18);
+						home.setTime(Instant.now());
+						
+						try
 						{
-							System.out.println("ROOM : " + home.getRoom());
-							System.out.println("TIME : " + home.getTime());
-							System.out.println("TEMPERATURE : " + home.getTemp());
-							System.out.println("HUMIDITY : " + home.getHum());
-							System.out.println("CARBON MONOXIDE : " + home.getCo());
+							user.writeWithPOJO(home, runner.getBucket(), runner.getOrganization());
 						}
-					}
-					catch(InvalidException e)
-					{
-						e.printStackTrace();
-					}
-					
-					break;
-				}
-				
-				case 5:					//Create Organization...
-				{
-					try
-					{
-						user.createOrganization(runner.getOrganization());
-					}
-					catch(InvalidException e)
-					{
-						e.printStackTrace();
-					}
-					
-					break;
-				}
-				case 6:					//Update Organization...
-				{
-					System.out.println("Enter the Description to add for the organization...");
-					String description = runner.getString();
-					
-					try
-					{
-						user.updateOrganization(runner.getOrganization(), description);
-					}
-					catch(InvalidException e)
-					{
-						e.printStackTrace();
-					}
-					
-					break;
-				}
-				
-				case 7:					//Activate Organization...
-				{
-					try
-					{
-						user.activateOrganization(runner.getOrganization());
-					}
-					catch(InvalidException e)
-					{
-						e.printStackTrace();
-					}
-					
-					break;
-				}
-				case 8:					//Deactivate Organization...
-				{
-					try
-					{
-						user.deactivateOrganization(runner.getOrganization());
-					}
-					catch(InvalidException e)
-					{
-						e.printStackTrace();
-					}
-					
-					break;
-				}
-				case 9:					//Create Bucket...
-				{
-					System.out.println("Enter the Description to add for the bucket...");
-					String description = runner.getString();
-					System.out.println("Enter the Retention Policy...");
-					String retentionPolicy = runner.getString();
-					
-					try
-					{
-						user.createBucket(runner.getOrganization(), runner.getBucket(), description, retentionPolicy);
-					}
-					catch(InvalidException e)
-					{
-						e.printStackTrace();
-					}
-					
-					break;
-				}
-				case 10:				//Exit...
-				{
-					System.out.println("Enter : 1 to Continue...\n        2 to Exit...");
-					int value = runner.getInt();
-					
-					switch(value)
-					{
-						case 1:
+						catch(InvalidException e)
 						{
-							condition = true;
-							break;
+							e.printStackTrace();
 						}
-						default:
-						{
-							condition = false;
-							break;
-						}
+						
+						break;
 					}
-					break;
+					case 4:					//Flux Query...
+					{
+						try
+						{
+							List<Home> homeList = user.fluxQuery(runner.getBucket(), runner.getOrganization());
+							
+							for(Home home : homeList)
+							{
+								System.out.println("ROOM : " + home.getRoom());
+								System.out.println("TIME : " + home.getTime());
+								System.out.println("TEMPERATURE : " + home.getTemp());
+								System.out.println("HUMIDITY : " + home.getHum());
+								System.out.println("CARBON MONOXIDE : " + home.getCo());
+							}
+						}
+						catch(InvalidException e)
+						{
+							e.printStackTrace();
+						}
+						
+						break;
+					}
+					
+					case 5:					//Create Organization...
+					{
+						try
+						{
+							user.createOrganization(runner.getOrganization());
+						}
+						catch(InvalidException e)
+						{
+							e.printStackTrace();
+						}
+						
+						break;
+					}
+					case 6:					//Update Organization...
+					{
+						System.out.println("Enter the Description to add for the organization...");
+						String description = runner.getString();
+						
+						try
+						{
+							user.updateOrganization(runner.getOrganization(), description);
+						}
+						catch(InvalidException e)
+						{
+							e.printStackTrace();
+						}
+						
+						break;
+					}
+					
+					case 7:					//Activate Organization...
+					{
+						try
+						{
+							user.activateOrganization(runner.getOrganization());
+						}
+						catch(InvalidException e)
+						{
+							e.printStackTrace();
+						}
+						
+						break;
+					}
+					case 8:					//Deactivate Organization...
+					{
+						try
+						{
+							user.deactivateOrganization(runner.getOrganization());
+						}
+						catch(InvalidException e)
+						{
+							e.printStackTrace();
+						}
+						
+						break;
+					}
+					case 9:					//Create Bucket...
+					{
+						System.out.println("Enter the Description to add for the bucket...");
+						String description = runner.getString();
+						System.out.println("Enter the Retention Policy...");
+						String retentionPolicy = runner.getString();
+						
+						try
+						{
+							user.createBucket(runner.getOrganization(), runner.getBucket(), description, retentionPolicy);
+						}
+						catch(InvalidException e)
+						{
+							e.printStackTrace();
+						}
+						
+						break;
+					}
+					case 10:
+					{
+						System.out.println("Enter the User Name to create...");
+						String userName = runner.getString();
+						System.out.println("Enter the Password to set...");
+						String password = runner.getString();
+						
+						try
+						{
+							user.createUser(userName, password);
+						}
+						catch(InvalidException e)
+						{
+							e.printStackTrace();
+						}
+						
+						break;
+					}
+					case 0:				//Exit...
+					{
+						System.out.println("Enter : 1 to Continue...\n        2 to Exit...");
+						int value = runner.getInt();
+						
+						switch(value)
+						{
+							case 1:
+							{
+								break;
+							}
+							default:
+							{
+								condition = false;
+								break;
+							}
+						}
+						
+						break;
+					}
 				}
+			}
+			catch(InputMismatchException e1)
+			{
+				e1.printStackTrace();
+				runner.getString();
 			}
 		}while(condition);
 		

@@ -8,9 +8,11 @@ import com.influxdb.client.InfluxDBClient;
 import com.influxdb.client.InfluxDBClientFactory;
 import com.influxdb.client.OrganizationsApi;
 import com.influxdb.client.QueryApi;
+import com.influxdb.client.UsersApi;
 import com.influxdb.client.WriteApiBlocking;
 import com.influxdb.client.domain.Bucket;
 import com.influxdb.client.domain.Organization;
+import com.influxdb.client.domain.User;
 import com.influxdb.client.domain.WritePrecision;
 import com.influxdb.client.write.Point;
 import com.influxdb.query.FluxRecord;
@@ -294,6 +296,32 @@ public class InfluxDBDemo
 		}
 		
 		throw new InvalidException("Organization not found.");
+	}
+	
+	//Create User...
+	public void createUser(String userName, String password)
+	{
+		InfluxDBClient client = null;
+		
+		try 
+		{
+			client = createConnection();
+			
+			UsersApi userApi = client.getUsersApi();
+			User user = new User();
+			user.setName(userName);
+			
+			user = userApi.createUser(user);
+			userApi.updateUserPassword(user, "", password);
+			
+		}
+		finally
+		{
+			if(client != null)
+			{
+				closeConnection(client);
+			}
+		}
 	}
 	
 }
